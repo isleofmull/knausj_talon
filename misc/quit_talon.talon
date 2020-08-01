@@ -1,0 +1,1 @@
+(quit | close) talon: user.quit_talon()
