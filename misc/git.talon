@@ -86,3 +86,5 @@ git commit highlighted:
 git commit all message <user.text>: "git commit -am '{text}'"
 git commit: "git commit "
 git log pretty: "git log --pretty=oneline\n"
+git remote: "git remote "
+git remote add: "git remote add "
