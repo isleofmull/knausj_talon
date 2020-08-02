@@ -10,10 +10,14 @@ class Actions:
         friendly_name = actions.app.name()
         executable = actions.app.executable().split(os.path.sep)[-1]
         if app.platform != "windows":
-            result = "os: {}\napp: {}\ntitle: {}".format(app.platform, friendly_name, actions.win.title())
+            result = "os: {}\napp: {}\ntitle: {}".format(
+                app.platform, friendly_name, actions.win.title()
+            )
 
-        #on windows, it's best to include both the friendly name and executable name in case the muicache breaks....
+        # on windows, it's best to include both the friendly name and executable name in case the muicache breaks....
         else:
-            result = "os: {}\napp: {}\napp: {}\ntitle: {}".format(app.platform, friendly_name, executable, actions.win.title())
+            result = "os: {}\napp: {}\napp: {}\ntitle: {}".format(
+                app.platform, friendly_name, executable, actions.win.title()
+            )
 
-        clip.set(result)       
+        clip.set(result)

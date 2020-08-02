@@ -5,9 +5,13 @@ os: linux
 app: Code
 app: Code - OSS
 -
-tag(): tabs
+tag(): find_and_replace
 tag(): ide
 tag(): line_commands
+tag(): multiple_cursors
+tag(): snippets
+tag(): splits
+tag(): tabs
 # General
 action(user.ide_command_palette):
   key(ctrl-shift-p)
@@ -18,11 +22,11 @@ action(edit.indent_more):
 action(app.tab_next):
   key(ctrl-k)
   key(ctrl-pagedown)
-  
 action(app.tab_previous):
   key(ctrl-k)
   key(ctrl-pageup)
-
+action(app.tab_close):
+  key(ctrl-w)
 # Toggleable views
 action(user.ide_toggle_fullscreen): 
   user.ide_command_palette()
@@ -44,37 +48,6 @@ action(user.ide_collapse_all):
   key(ctrl-k ctrl-0)
 action(user.ide_collapse_region):
   key(ctrl-shift-[)
-
-# Splits
-action(user.ide_split_right):
-  user.ide_command_palette()
-  insert("workbench.action.splitEditorRight")
-  key(enter)
-
-action(user.ide_split_left):
-  user.ide_command_palette()
-  insert("workbench.action.splitEditorLeft")
-  key(enter)
-
-action(user.ide_split_up):
-  user.ide_command_palette()
-  insert("workbench.action.splitEditorUp")
-  key(enter)
-
-action(user.ide_split_down):
-  user.ide_command_palette()
-  insert("workbench.action.splitEditorDown")
-  key(enter)
-
-action(user.ide_split_flip): key(alt-ctrl-0)
-action(user.ide_split_window): key(ctrl-\)
-action(user.ide_clear_split): user.ide_clear_all_splits()
-action(user.ide_clear_all_splits): 
-  user.ide_command_palette()
-  insert("View: Single Column Editor Layout")
-  key(enter)
-action(user.ide_go_next_split): key(ctrl-k ctrl-right)
-action(user.ide_go_last_split): key(ctrl-k ctrl-left)
 
 #Refactor
 
@@ -98,12 +71,6 @@ action(user.ide_go_back):
 
 action(user.ide_go_forward):
   key(alt-right)
-
-action(user.ide_multi_cursor_stop): key(escape)
-action(user.ide_up_cursor):key(ctrl-alt-up)
-action(user.ide_down_cursor): key(ctrl-alt-down)
-action(user.ide_multi_select_more): key(ctrl-d)
-action(user.ide_multi_select_all): key(ctrl-shift-l)
 
 action(user.ide_select_less): key(shift-alt-left)
 action(user.ide_select_more): key(shift-alt-right)
@@ -188,39 +155,6 @@ action(user.ide_toggle_debug):
   # View: Show Run and Debug, workbench.view.debug
   key(ctrl-shift-d)
 
-# Find and Replace
-action(user.ide_toggle_find):
-  # Search: Find in Files, workbench.action.findInFiles
-  key(ctrl-shift-f)
-action(user.ide_find_everywhere):
-  # Search: Find in Files, workbench.action.findInFiles
-  key(ctrl-shift-f)
-action(user.ide_replace_everywhere):
-  # Search: Replace in Files, workbench.action.replaceInFiles
-  key(ctrl-shift-h)
-
-action(user.ide_replace_local):
-  # Replace, editor.action.startFindReplaceAction
-  key(ctrl-h)
-action(user.ide_replace_confirm_current):
-  # ,editor.action.replaceOne
-  key(ctrl-shift-1)
-action(user.ide_replace_confirm_all):
-  # ,editor.action.replaceAll
-  key(ctrl-alt-enter)
-
-action(user.ide_find_match_by_case):
-  # Terminal: Toggle Find Using Case Sensitive, workbench.action.terminal.toggleFindCaseSensitive
-  key(alt-c)
-action(user.ide_find_match_by_word):
-  # Terminal: Toggle Find Using Whole Word, toggleFindWholeWord
-  key(alt-w)
-action(user.ide_find_match_by_regex):
-  # Terminal: Toggle Find Using Regex, workbench.action.terminal.toggleFindRegex
-  key(alt-r)
-
-
-
 action(user.ide_toggle_breakpoint):
   # Debug: Toggle Breakpoint, editor.debug.action.toggleBreakpoint
   key(f9)
@@ -256,14 +190,49 @@ action(user.ide_find_file):
   # Go to File... , workbench.action.quickOpen
   key(ctrl-p)
 
-#tabs 
-action(user.ide_go_first_tab): key(alt-1)
-action(user.ide_go_second_tab): key(alt-2)
-action(user.ide_go_third_tab): key(alt-3)
-action(user.ide_go_fourth_tab): key(alt-4)
-action(user.ide_go_fifth_tab): key(alt-5)
-action(user.ide_go_sixth_tab): key(alt-6)
-action(user.ide_go_seventh_tab): key(alt-7)
-action(user.ide_go_eighth_tab): key(alt-8)
-action(user.ide_go_ninth_tab): key(alt-9)
-action(user.ide_clear_tab): key(ctrl-w)
+# splits.py support begin
+action(user.split_window_right):
+  user.ide_command_palette()
+  insert("workbench.action.moveEditorRight")
+  key(enter)
+action(user.split_window_left):
+  user.ide_command_palette()
+  insert("workbench.action.moveEditorLeft")
+  key(enter)
+action(user.split_window_up):
+  user.ide_command_palette()
+  insert("workbench.action.moveEditorUp")
+  key(enter)
+action(user.split_window_down):
+  user.ide_command_palette()
+  insert("workbench.action.moveEditorDown")
+  key(enter)
+action(user.split_window_vertically): 
+  user.ide_command_palette()
+  insert("View: Split Editor")
+  key(enter)
+action(user.split_window_horizontally): 
+  user.ide_command_palette()
+  insert("View: Split Editor Orthogonal")
+  key(enter)
+action(user.split_flip): key(alt-shift-0)
+action(user.split_window): key(ctrl-\)
+action(user.split_clear): user.split_clear_all()
+action(user.split_clear_all): 
+  user.ide_command_palette()
+  insert("View: Single Column Editor Layout")
+  key(enter)
+action(user.split_next): key(ctrl-k ctrl-right)
+action(user.split_last): key(ctrl-k ctrl-left)
+# splits.py support begin
+
+#multiple_cursor.py support begin
+#note: vscode has no explicit mode for multiple cursors
+action(user.multi_cursor_enable): skip()
+action(user.multi_cursor_disable): key(escape)
+action(user.multi_cursor_add_above):key(ctrl-alt-up)
+action(user.multi_cursor_add_below): key(ctrl-alt-down)
+action(user.multi_cursor_select_fewer_occurrences): key(ctrl-u)
+action(user.multi_cursor_select_more_occurrences): key(ctrl-d)
+action(user.multi_cursor_select_all_occurrences): key(ctrl-shift-l)
+#multiple_cursor.py support end

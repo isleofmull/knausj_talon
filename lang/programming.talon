@@ -2,8 +2,8 @@ tag: user.code_generic
 -
 #todo should we have a keyword list? type list capture? stick with "word"?
 #state in: insert(" in ")
-is not none: user.code_is_not_null() 
-is none: user.code_is_null()
+is not (none|null): user.code_is_not_null()
+is (none|null): user.code_is_null()
 #todo: types?
 #word (dickt | dictionary): user.code_type_dictionary()
 state if: user.code_state_if()
@@ -12,7 +12,7 @@ state else: user.code_state_else()
 state self: user.code_self()
 #todo: this is valid for many languages,
 # but probably not all
-self dot: 
+self dot:
     user.code_self()
     insert(".")
 state while: user.code_state_while()
@@ -39,13 +39,6 @@ state (no | nil): user.code_null()
     sleep(50ms)
     insert("():")
     key(left left)
-# ^(funky camel | add function camel | insert function camel) <user.text>$:
-#     #todo: once .talon action definitions can take parameters, combine these functions
-#     user.code_public_function()
-#     user.code_public_function_formatter(user.text, 'PRIVATE_CAMEL_CASE')
-#     sleep(50ms)
-#     insert("()")
-#     edit.left()
 ^private funky <user.text>$:
     #todo: once .talon action definitions can take parameters, combine these functions
     user.code_private_function()
@@ -73,6 +66,31 @@ state (no | nil): user.code_null()
     #todo: once .talon action definitions can take parameters, combine these functions
 	user.code_public_static_function()
     user.code_public_function_formatter(user.text)
+
+# show and print functions
+toggle funk: user.code_toggle_functions()
+funk <user.code_functions>: 
+    old_clip = clip.text()
+    user.code_insert_function(code_functions, "")
+    clip.set_text(old_clip)
+funk cell <number>: 
+    old_clip = clip.text()
+    user.code_select_function(number - 1, "")
+    clip.set_text(old_clip)
+funk wrap <user.code_functions>: 
+    old_clip = clip.text()
+    edit.copy()
+    sleep(100ms)
+    user.code_insert_function(code_functions, clip.text())
+    clip.set_text(old_clip)
+funk wrap <number>: 
+    old_clip = clip.text()
+    edit.copy()
+    sleep(100ms)
+    user.code_select_function(number - 1, clip.text())
+    clip.set_text(old_clip)
+
+# James' additions
 ^(new | create) class <user.text>$:
     #todo: once .talon action definitions can take parameters, combine these functions
 	user.code_new_class()
@@ -86,4 +104,10 @@ state (no | nil): user.code_null()
     insert("__init__(self):")	
     sleep(50ms)
     key(left left)
-    
+# ^(funky camel | add function camel | insert function camel) <user.text>$:
+#     #todo: once .talon action definitions can take parameters, combine these functions
+#     user.code_public_function()
+#     user.code_public_function_formatter(user.text, 'PRIVATE_CAMEL_CASE')
+#     sleep(50ms)
+#     insert("()")
+#     edit.left()

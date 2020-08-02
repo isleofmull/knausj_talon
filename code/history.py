@@ -1,28 +1,32 @@
 from talon import imgui, Module, speech_system, actions
 
-hist_len = 5
+hist_len = 10
 history = []
+
+
 def parse_phrase(word_list):
-    return ' '.join(word.split('\\')[0] for word in word_list)
-        
+    return " ".join(word.split("\\")[0] for word in word_list)
+
+
 def on_phrase(j):
     global hist_len
     global history
 
     try:
-        val = parse_phrase(getattr(j['parsed'], '_unmapped', j['phrase']))
+        val = parse_phrase(getattr(j["parsed"], "_unmapped", j["phrase"]))
     except:
-        val = parse_phrase(j['phrase'])
-    
+        val = parse_phrase(j["phrase"])
+
     if val != "":
         history.append(val)
         history = history[-hist_len:]
 
         if gui.showing:
             gui.freeze()
-   
-#todo: dynamic rect?
-@imgui.open(x=1740, y=10, software=False)
+
+
+# todo: dynamic rect?
+@imgui.open(y=0, software=False)
 def gui(gui: imgui.GUI):
     global history
     gui.text("Command History")
@@ -31,14 +35,17 @@ def gui(gui: imgui.GUI):
     for line in text:
         gui.text(line)
 
-speech_system.register('phrase', on_phrase)
+
+speech_system.register("phrase", on_phrase)
 
 mod = Module()
+
+
 @mod.action_class
-class Actions:           
+class Actions:
     def history_enable():
         """Enables the history"""
-        gui.show()
+        gui.freeze()
 
     def history_disable():
         """Disables the history"""
@@ -48,5 +55,3 @@ class Actions:
         """Clear the history"""
         global history
         history = []
-
-

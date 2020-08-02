@@ -79,8 +79,9 @@ def ordinal_word(n):
     else:
         ordinal_list.append(ordinal_ones[n - 1])
 
-    result = ' '.join(ordinal_list)
+    result = " ".join(ordinal_list)
     return result
+
 
 for n in range(1, 100):
     # This was initially minus one to compensate for its only use as a command
