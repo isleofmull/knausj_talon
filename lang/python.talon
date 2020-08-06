@@ -134,18 +134,18 @@ while loop:
 	key(left)
 true: 'True'
 false: 'False'
-equals: ' = '
-greater than: ' > '
-less than: ' < '
-greater or equal to: ' >= '
-less than or equal to: ' <= '
-plus: ' + '
-minus: ' - '
+# equals: ' = '
+# greater than: ' > '
+# less than: ' < '
+# greater or equal to: ' >= '
+# less than or equal to: ' <= '
+# plus: ' + '
+# minus: ' - '
 pipe: ' | '
-divided by: ' / '
-(multiplied by | times): ' * '
-plus equals: ' += '
-minus equals: ' -= '
+# divided by: ' / '
+# (multiplied by | times): ' * '
+# plus equals: ' += '
+# minus equals: ' -= '
 if: 
 	"if :"
 	key(left)
@@ -170,6 +170,6 @@ math | maths: "math"
 tan: "tan"
 pie: 'pi'
 self: 'self'
-
+uno: "1"
 action(user.code_new_class):
 	insert("class ")

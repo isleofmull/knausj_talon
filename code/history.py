@@ -1,6 +1,6 @@
 from talon import imgui, Module, speech_system, actions
 
-hist_len = 10
+hist_len = 5
 history = []
 
 
@@ -26,7 +26,7 @@ def on_phrase(j):
 
 
 # todo: dynamic rect?
-@imgui.open(y=0, software=False)
+@imgui.open(y=10, x=1740, software=False)
 def gui(gui: imgui.GUI):
     global history
     gui.text("Command History")
@@ -45,7 +45,7 @@ mod = Module()
 class Actions:
     def history_enable():
         """Enables the history"""
-        gui.freeze()
+        gui.show()
 
     def history_disable():
         """Disables the history"""

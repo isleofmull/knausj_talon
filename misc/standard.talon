@@ -74,6 +74,6 @@ wipe: key(backspace)
 	insert("  ") 
 	key(left)
 funny: "haha"
-#menu: key(alt)
+menu: key(alt)
 
 

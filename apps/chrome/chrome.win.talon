@@ -115,3 +115,10 @@ open gmail:
 	insert('www.gmail.com')
 	key(delete)
 	key(enter)
+
+google that:
+	key(ctrl-c)
+	key(ctrl-t)
+	key(ctrl-l)
+	key(ctrl-v)
+	key(enter)
